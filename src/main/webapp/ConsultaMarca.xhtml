@@ -1,0 +1,36 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+	<h:head>
+		<title>Consulta de Marcas</title>
+	</h:head>
+	<h:body>
+		<f:metadata>
+			<f:viewAction action="#{consultaMarcaBean.consultar}"/>
+		</f:metadata>
+		
+		<p:panel header="Consulta de Marcas">
+			<h:form id="frm">
+				<p:dataTable value="#{consultaMarcaBean.marcas}" var="m">
+					<p:column style="color:black">
+						<f:facet name="header">
+							<h:outputText value="Código" />
+						</f:facet>
+							<h:outputText value="#{m.codigo}" />
+					</p:column>
+					<p:column style="color:black">
+						<f:facet name="header">
+							<h:outputText value="Descrição" />
+						</f:facet>
+							<h:outputText value="#{m.descricao}" />
+					</p:column>
+				</p:dataTable>
+			</h:form>
+		
+		</p:panel>
+	</h:body>
+</html>
