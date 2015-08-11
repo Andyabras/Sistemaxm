@@ -1,6 +1,8 @@
 package br.com.sistemaxm.entidades;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -8,17 +10,31 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Transient;
-import javax.transaction.Transactional;
+
+import org.apache.commons.lang.builder.ToStringBuilder;
+
 
 @Entity
 public class Cliente implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 		
-	private int codigo;
+	private Long codigo;
 	private Pessoa cliente;
+	private List<ContratoLocacao> locacoes;
+
+    public Cliente () {
+    	
+    }
+    
+    public Cliente(Long codigo, Pessoa cliente) {
+    	this.codigo=codigo;
+    	this.cliente=cliente;
+    }
 	
 	@Transient
 	private boolean pf;
@@ -26,10 +42,15 @@ public class Cliente implements Serializable {
 	@Transient
 	private boolean pj;
 	
+		
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	public int getCodigo() {
+	public Long getCodigo() {
 		return codigo;
+	}
+	
+	public void setCodigo(Long codigo) {
+		this.codigo = codigo;
 	}
 	
 	public boolean isPf() {
@@ -44,10 +65,9 @@ public class Cliente implements Serializable {
 	public void setPj(boolean pj) {
 		this.pj = pj;
 	}
-	public void setCodigo(int codigo) {
-		this.codigo = codigo;
-	}
-	@OneToOne(cascade=CascadeType.ALL, fetch=FetchType.LAZY )
+	
+	@OneToOne(cascade=CascadeType.ALL)
+	@JoinColumn(name="cod_pessoa")
 	public Pessoa getCliente() {
 		return cliente;
 	}
@@ -55,6 +75,41 @@ public class Cliente implements Serializable {
 		this.cliente = cliente;
 	}
 	
-	
+	@OneToMany(mappedBy="cliente", fetch=FetchType.LAZY, cascade=CascadeType.ALL)
+	public List<ContratoLocacao> getLocacoes() {
+		return locacoes;
+	}
 
+	public void setLocacoes(List<ContratoLocacao> locacoes) {
+		this.locacoes = locacoes;
+	}
+	
+	@Override
+	public int hashCode() {
+		int hash = 0;
+		hash += (this.codigo != null ? this.codigo.hashCode() : 0);
+
+		return hash;
+	}
+
+	@Override
+	public boolean equals(Object object) {
+		if (!(object instanceof Cliente)) {
+			return false;
+		}
+
+		Cliente ent = (Cliente) object;
+
+		if ((this.codigo == null && ent.codigo != null)
+				|| (this.codigo != null && !this.codigo.equals(ent.codigo))) {
+			return false;
+		}
+
+		return true;
+	}
+
+	@Override
+	public String toString() {
+		return ToStringBuilder.reflectionToString(this);
+	}
 }

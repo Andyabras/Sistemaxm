@@ -10,15 +10,22 @@
 	
 	<style type="text/css">
 	
-			.ui-datatable-frozenlayout-left {
-				width: 15% !important;
+		 	 .ui-datatable-frozenlayout-left {
+				width: 20% !important;
 				height: 30px !important;
-			}
-		
+			}  
 			
-			.ui-datatable-data tr{
+			.ui-datatable-frozenlayout-left td {
+				width: 60px !important;
+				
+			}  
+			
+			 .ui-datatable-data tr {
    				 height: 40px !important;
+   				width:100% !important;
    			}
+   			
+   			 
 			
 	</style>
 </h:head>
@@ -33,8 +40,8 @@
 					<p:growl id="msgs" showDetail="true" />
 					<!-- <p:outputPanel id="opResultadoId" > -->
 					<p:dataTable id="dtId" value="#{consultaCarroBean.carros}" var="c"
-						editable="true" paginator="true" paginatorPosition="bottom"
-						scrollable="true" scrollWidth="86%" frozenColumns="2" rows="10">
+						editable="true" paginator="true" paginatorPosition="bottom" paginatorAlwaysVisible="false"
+						scrollable="true" scrollWidth="1150px" frozenColumns="2" rows="9" style="width:480px">
 
 						<p:ajax event="rowEdit" listener="#{dtEditViewCar.onRowEdit}"
 							update=":frm:msgs" />

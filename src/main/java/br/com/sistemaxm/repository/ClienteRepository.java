@@ -31,6 +31,12 @@ public class ClienteRepository implements Serializable {
 		return query.getResultList();
 	}
 	
+	public List<Cliente> nomesCliente() {
+		TypedQuery<Cliente> query = manager.createQuery("Select new Cliente(c.codigo, c.cliente) from Cliente c", Cliente.class);
+		return query.getResultList();
+	}
+	
+		
 	public void salvar(Cliente cliente) {
 		this.manager.persist(cliente);
 	}

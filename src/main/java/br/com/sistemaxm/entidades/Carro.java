@@ -1,10 +1,13 @@
-package br.com.sistemaxm.entidades;
+  package br.com.sistemaxm.entidades;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.faces.bean.ReferencedBean;
 import javax.persistence.*;
 
+import org.apache.commons.lang.builder.ToStringBuilder;
 import org.hibernate.annotations.ForeignKey;
 import org.hibernate.engine.profile.Fetch;
 
@@ -14,12 +17,11 @@ import br.com.sistemaxm.entidades.Marca;
 
 @Entity
 @Table(name="carro", uniqueConstraints={@UniqueConstraint(columnNames=("placa"))})
-
 public class Carro implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 	
-	private int id;
+	private Long id;
 	private String placa;
 	private String modelo;
 	private String uf;
@@ -45,21 +47,28 @@ public class Carro implements Serializable {
 	private boolean freioAbs;
 	private boolean rodaLigaLeve;
 	private boolean gps;
+	private boolean disponivel;
 	private Cambio cambio;
-	private Combustivel combustivel;
-	
+	private Combustivel combustivel;	
 	private Marca marca;
-		
+	private List<ContratoLocacao> locacoes;
+			
 	public Carro() {
 		super();
+	}
+	
+	public Carro(Long id, String modelo, String placa) {
+		this.id = id;
+		this.modelo = modelo;
+		this.placa=placa;
 	}
 		
 	@Id
 	@GeneratedValue
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 	@Column(unique=true,nullable=false)
@@ -234,6 +243,14 @@ public class Carro implements Serializable {
 	public void setGps(boolean gps) {
 		this.gps = gps;
 	}
+	
+	public boolean isDisponivel() {
+		return disponivel;
+	}
+
+	public void setDisponivel(boolean disponivel) {
+		this.disponivel = disponivel;
+	}
 
 	@Enumerated(EnumType.STRING) 
 	public Cambio getCambio() {
@@ -260,7 +277,17 @@ public class Carro implements Serializable {
 	public void setMarca(Marca marca) {
 		this.marca = marca;
 	}
+	
+	@OneToMany(mappedBy="carro", fetch=FetchType.LAZY, cascade=CascadeType.ALL)	
+	public List<ContratoLocacao> getLocacoes() {
+		return locacoes;
 		
+	}
+
+	public void setLocacoes(List<ContratoLocacao> locacoes) {
+		this.locacoes = locacoes;
+	}
+
 	public int getQtdePortas() {
 		return qtdePortas;
 	}
@@ -274,36 +301,35 @@ public class Carro implements Serializable {
 	public void setKm(long km) {
 		this.km = km;
 	}
-		
+	
 	
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((placa == null) ? 0 : placa.hashCode());
-		return result;
+		int hash = 0;
+		hash += (this.id != null ? this.id.hashCode() : 0);
+
+		return hash;
 	}
+
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
+	public boolean equals(Object object) {
+		if (!(object instanceof Carro)) {
 			return false;
-		if (getClass() != obj.getClass())
+		}
+
+		Carro ent = (Carro) object;
+
+		if ((this.id == null && ent.id != null)
+				|| (this.id != null && !this.id.equals(ent.id))) {
 			return false;
-		Carro other = (Carro) obj;
-		if (placa == null) {
-			if (other.placa != null)
-				return false;
-		} else if (!placa.equals(other.placa))
-			return false;
+		}
+
 		return true;
 	}
-	
+
 	@Override
 	public String toString() {
-		// TODO Auto-generated method stub
-		return this.getClass().getName();
+		return ToStringBuilder.reflectionToString(this);
 	}
 	
 	

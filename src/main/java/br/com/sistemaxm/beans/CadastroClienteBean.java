@@ -1,26 +1,50 @@
 package br.com.sistemaxm.beans;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
 import javax.faces.model.SelectItem;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
 
+import br.com.sistemaxm.business.CadastroClientes;
 import br.com.sistemaxm.entidades.Cliente;
+import br.com.sistemaxm.entidades.Endereco;
 import br.com.sistemaxm.entidades.PessoaFisica;
 import br.com.sistemaxm.entidades.PessoaJuridica;
 import br.com.sistemaxm.enums.Sexo;
+import br.com.sistemaxm.repository.ClienteRepository;
+import br.com.sistemaxm.repository.JpaUtil;
 
 @ManagedBean
 @ViewScoped
-public class CadastroClienteBean {
+public class CadastroClienteBean implements Serializable {	
+	private static final long serialVersionUID = 1L;
 	
-	private Cliente cliente = new Cliente();	
-	private PessoaFisica pessoaFisica = new PessoaFisica();
-	private PessoaJuridica pessoaJuridica = new PessoaJuridica();
+	private Cliente cliente;	
+	private PessoaFisica pessoaFisica;
+	private PessoaJuridica pessoaJuridica;
+	private Endereco endereco;
+	
+	public CadastroClienteBean() {
+		this.cliente = new Cliente();
+		this.pessoaFisica = new PessoaFisica();
+		this.pessoaJuridica = new PessoaJuridica();
+		this.endereco = new Endereco();
+		
+		pessoaJuridica.setEndereco(endereco);
+		cliente.setCliente(pessoaJuridica);
+		
+		pessoaFisica.setEndereco(endereco);
+		cliente.setCliente(pessoaFisica);
+		
+	}
 	
 	public List<SelectItem> getTipoItemListSexo() {
 		List<SelectItem> auxLista = new ArrayList<SelectItem>();
@@ -30,6 +54,18 @@ public class CadastroClienteBean {
 		return auxLista;
 	}
 	
+		
+	public Endereco getEndereco() {
+		return endereco;
+	}
+
+
+
+	public void setEndereco(Endereco endereco) {
+		this.endereco = endereco;
+	}
+
+
 	public PessoaJuridica getPessoaJuridica() {
 		return pessoaJuridica;
 	}
@@ -68,6 +104,57 @@ public class CadastroClienteBean {
 		} else {
 			this.cliente.setPf(true);
 			this.cliente.setPj(false);
+		}
+	}
+	
+	
+	public void salvarPf() {
+		EntityManager manager = JpaUtil.getEntityManager();
+		EntityTransaction trx = manager.getTransaction();
+		FacesContext context = FacesContext.getCurrentInstance();
+		
+		try {
+			trx.begin();			
+			CadastroClientes cadastro = new CadastroClientes(new ClienteRepository(manager));
+			cadastro.salvar(cliente);
+			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Cliente cadastrado com sucesso!",null));
+			this.pessoaFisica = new PessoaFisica();
+			this.cliente = new Cliente();
+			trx.commit();
+						
+		}
+		catch(Exception e) {
+			trx.rollback();
+			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Cliente não cadastrado!",null));
+		}
+		finally {
+			manager.close();
+
+		}
+	}
+	
+	public void salvarPj() {
+		EntityManager manager = JpaUtil.getEntityManager();
+		EntityTransaction trx = manager.getTransaction();
+		FacesContext context = FacesContext.getCurrentInstance();
+		
+		try {
+			trx.begin();			
+			CadastroClientes cadastro = new CadastroClientes(new ClienteRepository(manager));
+			cadastro.salvar(cliente);
+			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Cliente cadastrado com sucesso!",null));
+			this.pessoaJuridica = new PessoaJuridica();
+			this.cliente = new Cliente();
+			trx.commit();
+						
+		}
+		catch(Exception e) {
+			trx.rollback();
+			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Cliente não cadastrado!",null));
+		}
+		finally {
+			manager.close();
+			
 		}
 	}
 	

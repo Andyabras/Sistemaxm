@@ -34,7 +34,7 @@ public class CadastroCarroBean implements Serializable {
 	
 	private Carro carro = new Carro();	
 	private List<Marca> marcas;
-	private List<Carro> carros;// cara nao sei pq mas to com marca na cabeça. perai hehe. blz
+	private List<Carro> carros;
 		
 	@PostConstruct
 	public void prepararCadastro() {
@@ -75,12 +75,7 @@ public class CadastroCarroBean implements Serializable {
 		return Combustivel.values();
 	}
 	
-		
-	public void redirectMarca() throws IOException {
-	 FacesContext.getCurrentInstance().getExternalContext().redirect("CadastroMarca.xhtml");
-	}
-	
-			
+				
 	public void salvar() {
 		EntityManager manager = JpaUtil.getEntityManager();
 		EntityTransaction trx = manager.getTransaction();

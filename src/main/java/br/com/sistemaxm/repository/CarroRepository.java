@@ -26,6 +26,11 @@ public class CarroRepository implements Serializable {
 		return manager.find(Carro.class, id);
 	}
 	
+	public List<Carro> veiculosCombo() {
+		TypedQuery<Carro> query = manager.createQuery("select new Carro(c.id, c.modelo, c.placa) from Carro c", Carro.class);
+		return query.getResultList();
+	}
+	
 	public List<Carro> todos() {
 		TypedQuery<Carro> query = manager.createQuery("from Carro", Carro.class);
 		return query.getResultList();

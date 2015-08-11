@@ -18,7 +18,7 @@
 		<p:panel header="Cadastro de Veiculos">
 			<h:form>
 			<p:messages autoUpdate="true" closable="true" redisplay="true" />
-				<h:panelGrid columns="6">
+				<p:panelGrid columns="6" columnClasses="rotulo, campo">
 					
 					<h:outputLabel value="Placa" />
 						<p:inputText requiredMessage="Campo Obrigatório" value="#{cadastroCarroBean.carro.placa}" maxlength="8" size="8"/>
@@ -30,13 +30,15 @@
 				   		 <f:selectItem itemLabel="Selecione" noSelectionOption="true"/>
 				   		<f:selectItems value="#{cadastroCarroBean.marcas}" var="marca" itemValue="#{marca}" itemLabel="#{marca.descricao}"/>
 				   	</p:selectOneMenu>
+				   	
+				   	
 					
 					<h:outputLabel value="Modelo" />
 						<p:inputText requiredMessage="Campo Obrigatório" value="#{cadastroCarroBean.carro.modelo}"/>
 					<h:outputLabel value="Ano Fab." />
-						<p:inputText requiredMessage="Campo Obrigatório" value="#{cadastroCarroBean.carro.anoFabricacao}" maxlength="4" size="2"/>
+						<p:inputText requiredMessage="Campo Obrigatório" value="#{cadastroCarroBean.carro.anoFabricacao}" maxlength="4" size="1"/>
 					<h:outputLabel value="Ano Mod." />
-						<p:inputText requiredMessage="Campo Obrigatório" value="#{cadastroCarroBean.carro.anoModelo}" maxlength="4" size="2"/>
+						<p:inputText requiredMessage="Campo Obrigatório" value="#{cadastroCarroBean.carro.anoModelo}" maxlength="4" size="1"/>
 					<h:outputLabel value="Cor" />
 						<p:inputText requiredMessage="Campo Obrigatório" value="#{cadastroCarroBean.carro.cor}" size="8"/>
 					<h:outputLabel value="Qtde Portas" />
@@ -63,8 +65,8 @@
 								itemLabel="#{c.label}" itemValue="#{c}"/>
 					</p:selectOneMenu>
 					
-				</h:panelGrid><br/>
-					<p:commandLink value="Cadastrar Marca" style="margin-right:10px" actionListener="#{cadastroCarroBean.redirectMarca}"/>
+				</p:panelGrid><br/>					
+					<p:link value="Cadastrar Marca" outcome="/CadastroMarca.xhtml"/>
 				 <br/><br/>
 				 <p:outputLabel style="font-weight:bold" value="Itens Opcionais:"/>	<br/><br/>
 				<p:panelGrid columns="10"> 

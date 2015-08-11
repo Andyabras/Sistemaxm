@@ -10,6 +10,15 @@
       	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
       	<title>XM Locação</title>
       	<style type="text/css">
+      		
+      		body {
+				font-size: 15px;
+				font-family: Arial, Helvetica, sans-serif;
+				margin: 0px;
+				font-weight: normal;
+}
+      		
+      	
 			.ui-layout-north {
 				Z-INDEX: 20 !IMPORTANT;
 				OVERFLOW: VISIBLE !IMPORTANT;
@@ -25,7 +34,19 @@
 				margin: 5%;
 				}
 			
+			.ui-picklist-list {
+				width:450px !important;
+			}
 			
+			.ui-picklist-list td {
+				text-align:left;
+				width:80px;
+			}
+			
+			.rotulo {
+				width:150px;
+			}
+									
 		</style>
       </h:head>     
       
@@ -41,6 +62,7 @@
                	    		<p:menuitem value="Veículo" url="/faces/Teste.xhtml" />
                 			<p:menuitem value="Marca" url="/faces/CadastroMarca.xhtml" />
                 			<p:menuitem value="Cliente" url="/faces/CadastroCliente.xhtml" />
+                			<p:menuitem value="Locação" url="/faces/LocacaoVeiculos.xhtml" />
                 			<p:menuitem value="Fornecedor" url="#"/>    
                 			<p:menuitem value="Usuário do Sistema" url="/faces/CadastroUsuario.xhtml"/>             			
             			</p:submenu>

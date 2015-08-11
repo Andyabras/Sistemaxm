@@ -1,9 +1,11 @@
 package br.com.sistemaxm.entidades;
 
+import java.io.Serializable;
+
 import javax.persistence.Embeddable;
 
 @Embeddable
-public class Endereco {
+public class Endereco implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	private String logradouro;

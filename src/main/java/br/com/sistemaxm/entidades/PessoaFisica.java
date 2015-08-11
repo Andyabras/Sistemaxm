@@ -9,6 +9,8 @@ import java.util.Date;
 
 import javax.persistence.*;
 
+import org.hibernate.annotations.UpdateTimestamp;
+
 /**
  * Entity implementation class for Entity: PessoaFisica
  *
@@ -26,6 +28,7 @@ public class PessoaFisica extends Pessoa implements Serializable {
 	public PessoaFisica() {
 		super();
 	}   
+	@Column(unique=true)
 	public String getCpf() {
 		return this.cpf;
 	}
